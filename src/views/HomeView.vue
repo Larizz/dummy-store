@@ -28,16 +28,16 @@
       </div>
     </div>
   </header>
-  <div class="grid grid-cols-4 gap-4 m-16">
+  <section class="grid grid-cols-4 mt-10">
     <ListProducts
       v-for="product in productFilter"
       :key="product.id"
       :title="product.title"
       :price="product.price"
       :category="product.category"
-      :urlProductImg="urlProductImg"
+      :thumbnail="product.thumbnail"
     />
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -53,7 +53,6 @@ onMounted(() => {
   getAllProducts()
 })
 
-let urlProductImg = ref('https://i.dummyjson.com/data/products/1/thumbnail.jpg')
 const products = ref<any>([])
 let searchProduct = ref('')
 
