@@ -1,10 +1,10 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center m-2 bg-slate-200 rounded-2xl">
     <div class="text-gray-600 w-60 p-2">
-      <a class="block relative h-48 rounded">
+      <a class="block relative h-48">
         <img
           alt="ecommerce"
-          class="object-cover object-center w-full h-40"
+          class="object-cover object-center w-full h-40 rounded-lg"
           :src="props.thumbnail"
         />
       </a>

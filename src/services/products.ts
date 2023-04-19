@@ -6,5 +6,19 @@ export default (httpClient: AxiosInstance) => ({
     return {
       data: response.data
     }
+  },
+
+  postProducts: async () => {
+    const response = await httpClient.post('/products/add')
+    return {
+      data: response.data
+    }
+  },
+
+  getProductsCategory: async () => {
+    const response = await httpClient.get('/products/category')
+    return {
+      data: response.data
+    }
   }
 })
