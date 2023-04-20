@@ -15,11 +15,6 @@
           </p>
         </div>
       </div>
-      <img
-        class="w-[728px]"
-        src="../assets/images/arranjo-de-colecao-estacionario-moderno_23-2149309641.svg"
-        alt=""
-      />
     </div>
   </header>
 </template>
@@ -30,9 +25,6 @@
 .header {
   display: flex;
   justify-content: space-between;
-  background-image: url('../../src/assets/images/arranjo-de-colecao-estacionario-moderno_23-2149309641.svg');
   background-size: 728px;
-  background-repeat: no-repeat;
-  background-position: 200% 50%;
 }
 </style>

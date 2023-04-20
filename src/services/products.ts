@@ -2,7 +2,7 @@ import type { AxiosInstance } from 'axios'
 
 export default (httpClient: AxiosInstance) => ({
   getAllProducts: async () => {
-    const response = await httpClient.get('/products')
+    const response = await httpClient.get('/products/?limit=10')
     return {
       data: response.data
     }
@@ -17,6 +17,13 @@ export default (httpClient: AxiosInstance) => ({
 
   getProductsCategory: async () => {
     const response = await httpClient.get('/products/category')
+    return {
+      data: response.data
+    }
+  },
+
+  selectProduct: async () => {
+    const response = await httpClient.get('/products/')
     return {
       data: response.data
     }

@@ -1,19 +1,20 @@
 <template>
-  <div class="flex justify-center m-2 bg-slate-200 rounded-2xl">
-    <div class="text-gray-600 w-60 p-2">
+  <div class="flex justify-center bg-slate-100 m-10 ml-0">
+    <div class="text-gray-600 w-85">
       <a class="block relative h-48">
-        <img
-          alt="ecommerce"
-          class="object-cover object-center w-full h-40 rounded-lg"
-          :src="props.thumbnail"
-        />
+        <img alt="ecommerce" class="object-cover object-center h-full" :src="props.thumbnail" />
       </a>
-      <div class="space-y-1">
-        <h3 class="text-gray-500 text-xs tracking-widest">
+      <div class="p-3">
+        <h3 class="text-gray-500 text-sm tracking-widest pb-3">
           {{ props.category }}
         </h3>
-        <h2 class="text-gray-900 text-lg font-medium">{{ props.title }}</h2>
-        <p>R${{ props.price }},00</p>
+        <div class="flex justify-between items-center w-full">
+          <h2 class="text-gray-900 text-xl font-medium">
+            {{ props.title }}
+          </h2>
+          <img src="../../public/icons8-copas-30.png" class="w-4 h-4 hover:w-5 hover:h-5" />
+        </div>
+        <p class="text-base">R${{ props.price }},00</p>
       </div>
     </div>
   </div>

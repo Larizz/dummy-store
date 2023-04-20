@@ -16,6 +16,7 @@ const vuetify = createVuetify({
 })
 
 import './assets/main.css'
+import '../src/assets/fonts.css'
 
 const app = createApp(App)
 
