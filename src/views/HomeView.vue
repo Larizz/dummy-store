@@ -3,7 +3,7 @@
     <div class="flex justify-between bg-slate-100 text-gray-600 h-18">
       <div class="flex w-full justify-between m-6">
         <ul class="flex gap-5 items-center text-lg tracking-widest">
-          <li class="hover:text-black"><RouterLinkr to="/">HOME</RouterLinkr></li>
+          <li class="hover:text-black"><RouterLink to="/">HOME</RouterLink></li>
           <li class="hover:text-black"><a href="#Products">STORE</a></li>
         </ul>
         <div class="flex items-center gap-2">
@@ -64,6 +64,7 @@
     <div class="ml-24">
       <section class="grid grid-cols-5 ml-10">
         <ListProducts
+          @click="logProduct(product)"
           v-for="product in productFilter"
           :key="product.id"
           :title="product.title"
@@ -73,7 +74,7 @@
         />
       </section>
     </div>
-    <CustomerInteractionsVue></CustomerInteractionsVue>
+    <!-- <CustomerInteractionsVue /> -->
   </div>
   <div class="flex justify-center py-10 bg-slate-200 mt-10">
     <p class="font-medium text-center text-gray-800">dummyStore &copy; 2023</p>
@@ -87,7 +88,7 @@ import services from '@/services'
 import ListProducts from '../components/ListProducts.vue'
 import CustomHeader from '../components/CustomHeader.vue'
 import axios from 'axios'
-import type CustomerInteractionsVue from '@/components/CustomerInteractions.vue'
+import CustomerInteractionsVue from '@/components/CustomerInteractions.vue'
 import CardProductSelected from '.././/components/CardProductSelected.vue'
 
 interface State {
@@ -104,7 +105,10 @@ const state = ref<any>({
   category: null,
   products
 })
+
+// TODO: dever de casa = entender a diferença de let e const e quando utiliza-las
 let cardProductSelected = ref<any>('')
+const selectedProductId = ref<number>()
 
 const filterCategory = (category: string) => {}
 
@@ -129,22 +133,12 @@ const getAllProducts = async () => {
   products.value = data.products
 }
 
-// const selectProduct = async (productId: number) => {
-//   const { data } = await services.products.selectProduct()
-//   const selectedProduct = data.products.find((product: any) => product.id === productId)
-//   cardProductSelected.value = selectedProduct
-// }
-// const postProducts = async () => {
-//   const data = {
-//     title: 'car'
-//   }
-//   axios
-//     .post('https://dummyjson.com/products/add', { params: data })
-//     .then((response) => console.log(response))
+const getSingleProduct = async () => {}
 
-//   newProduct.value = ''
-//   alert('New product successfully added!')
-// }
+const logProduct = (product: any) => {
+  // console.log(product)
+  selectedProductId.value = product.id
+}
 </script>
 
 <style scoped></style>

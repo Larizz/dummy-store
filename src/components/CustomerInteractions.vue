@@ -19,8 +19,12 @@
                 </p>
                 <label for="" class="text-slate-500 text-xl">Here you can add a product.</label>
                 <div class="mt-6 gap-2" id="form">
-                  -->
-                  <input type="text" placeholder="Add a product" class="focus:outline-none" />
+                  <input
+                    v-model="newProduct"
+                    type="text"
+                    placeholder="Add a product"
+                    class="focus:outline-none"
+                  />
                   <button
                     type="submit"
                     class="bg-black rounded-sm w-24 h-10 md:mt-3"
@@ -37,39 +41,23 @@
     </div>
   </header>
 </template>
--->
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import services from '@/services'
-// const postProducts = async () => {
-//   const data = {
-//     title: 'car'
-//   }
-//   axios
-//     .post('https://dummyjson.com/products/add', { params: data })
-//     .then((response) => console.log(response))
 
-//   newProduct.value = ''
-//   alert('New product successfully added!')
-// }
-const newProduct = ref('')
+const newProduct = ref<string>('')
 
 const addNewProduct = async () => {
   try {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    const data = {
+    const response = await services.products.registerProduct({
       title: newProduct.value
-    }
-    const response = await services.products.postProducts(data, config)
+    })
+
     const { title } = response.data
 
     console.log('Title: ' + title)
-    newProduct.value = title
+    newProduct.value = ''
 
     alert('New product successfully added!')
   } catch (error) {
