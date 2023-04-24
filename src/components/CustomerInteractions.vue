@@ -21,7 +21,13 @@
                 <div class="mt-6 gap-2" id="form">
                   -->
                   <input type="text" placeholder="Add a product" class="focus:outline-none" />
-                  <button type="submit" class="bg-black rounded-sm w-24 h-10">Add</button>
+                  <button
+                    type="submit"
+                    class="bg-black rounded-sm w-24 h-10 md:mt-3"
+                    @click="addNewProduct"
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
             </div>
@@ -33,6 +39,43 @@
 </template>
 -->
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import services from '@/services'
+// const postProducts = async () => {
+//   const data = {
+//     title: 'car'
+//   }
+//   axios
+//     .post('https://dummyjson.com/products/add', { params: data })
+//     .then((response) => console.log(response))
+
+//   newProduct.value = ''
+//   alert('New product successfully added!')
+// }
+const newProduct = ref('')
+
+const addNewProduct = async () => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    const data = {
+      title: newProduct.value
+    }
+    const response = await services.products.postProducts(data, config)
+    const { title } = response.data
+
+    console.log('Title: ' + title)
+    newProduct.value = title
+
+    alert('New product successfully added!')
+  } catch (error) {
+    console.log(error)
+  }
+}
+</script>
 
 <style scoped></style>

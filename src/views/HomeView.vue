@@ -100,7 +100,6 @@ onMounted(() => {
 
 const products = ref<any>([])
 let searchProduct = ref('')
-const newProduct = ref('')
 const state = ref<any>({
   category: null,
   products
