@@ -15,6 +15,13 @@
           <img src="../../public/icons8-copas-30.png" class="w-4 h-4 hover:w-5 hover:h-5" />
         </div>
         <p class="text-base">R${{ props.price }},00</p>
+        <button
+          type="submit"
+          class="bg-slate-200 rounded-lg w-24 h-10 md:mt-3 hover:text-black"
+          @click="$emit('showModal')"
+        >
+          View more
+        </button>
       </div>
     </div>
   </div>
@@ -26,6 +33,10 @@ const props = defineProps<{
   thumbnail: string
   price: number
   category: string
+}>()
+
+defineEmits<{
+  (e: 'showModal'): void
 }>()
 </script>
 

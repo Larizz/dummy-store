@@ -27,7 +27,7 @@
                   />
                   <button
                     type="submit"
-                    class="bg-black rounded-sm w-24 h-10 md:mt-3"
+                    class="bg-black rounded-lg w-24 h-10 md:mt-3"
                     @click="addNewProduct"
                   >
                     Add

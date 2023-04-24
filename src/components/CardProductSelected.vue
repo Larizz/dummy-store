@@ -5,11 +5,10 @@
         <img
           alt="ecommerce"
           class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-          :src="props.thumbnail"
         />
         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-          <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ props.category }}</h2>
-          <h1 class="text-black text-3xl title-font font-medium mb-1">{{ props.title }}</h1>
+          <h2 class="text-sm title-font text-gray-500 tracking-widest"></h2>
+          <h1 class="text-black text-3xl title-font font-medium mb-1"></h1>
           <p class="leading-relaxed">
             Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia
             microdosing tilde DIY. XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn.
@@ -18,7 +17,7 @@
           </p>
           <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-800 mb-5"></div>
           <div class="flex">
-            <span class="title-font font-medium text-2xl text-white">{{ props.price }}</span>
+            <span class="title-font font-medium text-2xl text-white"></span>
             <button
               class="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
             >
@@ -50,12 +49,12 @@
 <script setup lang="ts">
 import products from '@/services/products'
 
-const props = defineProps<{
-  title: string
-  thumbnail: string
-  price: number
-  category: string
-}>()
+// const props = defineProps<{
+//   title: string
+//   thumbnail: string
+//   price: number
+//   category: string
+// }>()
 </script>
 
 <style scoped></style>

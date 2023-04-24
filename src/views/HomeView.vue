@@ -64,7 +64,7 @@
     <div class="ml-24">
       <section class="grid grid-cols-5 ml-10">
         <ListProducts
-          @click="logProduct(product)"
+          @show-modal="getSingleProduct(product.id)"
           v-for="product in productFilter"
           :key="product.id"
           :title="product.title"
@@ -72,14 +72,41 @@
           :category="product.category"
           :thumbnail="product.thumbnail"
         />
+        <v-dialog v-model="dialog" width="auto">
+          <v-card>
+            <v-dialog v-model="dialog" width="auto">
+              <v-card class="text-gray-700 bg-gray-200 rounded-lg p-10 flex justify-center">
+                <h1 class="m-5 mb-2 text-4xl">{{ product.title }}</h1>
+                <h2 class="ml-5 text-lg">{{ product.category }}</h2>
+                <h3 class="ml-5 text-base">{{ product.brand }}</h3>
+                <h3 class="ml-5">R${{ product.price }},00</h3>
+                <div class="w-40">
+                  <img
+                    :src="product.thumbnail"
+                    alt=""
+                    class="object-cover object-center h-full m-5 rounded-sm"
+                  />
+                </div>
+                <v-card-text>Description: {{ product.description }} </v-card-text>
+                <h3>Assessment: {{ product.rating }}</h3>
+                <h3>stock: {{ product.stock }}</h3>
+                <v-card-actions class="flex justify-center">
+                  <v-btn color="secundary" @click="dialog = false" class="bg-black w-48"
+                    >Close</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-card>
+        </v-dialog>
       </section>
     </div>
+
     <!-- <CustomerInteractionsVue /> -->
   </div>
   <div class="flex justify-center py-10 bg-slate-200 mt-10">
     <p class="font-medium text-center text-gray-800">dummyStore &copy; 2023</p>
   </div>
-  <!-- <CardProductSelected></CardProductSelected> -->
 </template>
 
 <script setup lang="ts">
@@ -88,7 +115,7 @@ import services from '@/services'
 import ListProducts from '../components/ListProducts.vue'
 import CustomHeader from '../components/CustomHeader.vue'
 import axios from 'axios'
-import CustomerInteractionsVue from '@/components/CustomerInteractions.vue'
+import CustomerInteractionsVue from '@/views/CustomerInteractions.vue'
 import CardProductSelected from '.././/components/CardProductSelected.vue'
 
 interface State {
@@ -100,15 +127,12 @@ onMounted(() => {
 })
 
 const products = ref<any>([])
+const product = ref<any>([])
 let searchProduct = ref('')
-const state = ref<any>({
-  category: null,
-  products
-})
+const dialog = ref(false)
 
 // TODO: dever de casa = entender a diferença de let e const e quando utiliza-las
 let cardProductSelected = ref<any>('')
-const selectedProductId = ref<number>()
 
 const filterCategory = (category: string) => {}
 
@@ -133,11 +157,11 @@ const getAllProducts = async () => {
   products.value = data.products
 }
 
-const getSingleProduct = async () => {}
-
-const logProduct = (product: any) => {
-  // console.log(product)
-  selectedProductId.value = product.id
+const getSingleProduct = async (product_id: number) => {
+  dialog.value = true
+  const { data } = await services.products.getSingleProduct(product_id)
+  product.value = data
+  console.log(product.value)
 }
 </script>
 
