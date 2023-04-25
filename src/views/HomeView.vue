@@ -147,13 +147,14 @@ const dialog = ref(false)
 
 // TODO:= entender a diferença de let e const e quando utiliza-las
 const cardProductSelected = ref<any>('')
-const filterCategoryProduct = ref<any>('')
+const filterCategoryProduct = ref<any>([])
 const categoryFilter = ref('')
 
 const filterCategory = async (category: string) => {
   const { data } = await services.products.getProductsCategory(category)
-  filterCategoryProduct.value = data
-  console.log(filterCategoryProduct.value)
+  // filterCategoryProduct.value = data.products
+  products.value = data.products
+  console.log(products.value)
 }
 
 const productFilter = computed(() => {
@@ -171,6 +172,7 @@ const productFilter = computed(() => {
 const getAllProducts = async () => {
   const { data } = await services.products.getAllProducts()
   products.value = data.products
+  console.log(products.value)
 }
 
 const getSingleProduct = async (product_id: number) => {
