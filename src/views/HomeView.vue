@@ -37,7 +37,7 @@
           <li>
             <button
               class="block mt-1 w-full rounded-xl py-2 hover:text-black"
-              @click="filterCategory('Smartphones')"
+              @click="filterCategory('smartphones')"
             >
               Smartphones
             </button>
@@ -75,35 +75,50 @@
         <v-dialog v-model="dialog" width="auto">
           <v-card>
             <v-dialog v-model="dialog" width="auto">
-              <v-card class="text-gray-700 bg-gray-200 rounded-lg p-10 flex justify-center">
-                <h1 class="m-5 mb-2 text-4xl">{{ product.title }}</h1>
-                <h2 class="ml-5 text-lg">{{ product.category }}</h2>
-                <h3 class="ml-5 text-base">{{ product.brand }}</h3>
-                <h3 class="ml-5">R${{ product.price }},00</h3>
-                <div class="w-40">
-                  <img
-                    :src="product.thumbnail"
-                    alt=""
-                    class="object-cover object-center h-full m-5 rounded-sm"
-                  />
+              <v-card class="text-gray-600 bg-slate-200 rounded-lg p-10">
+                <div class="flex gap-10 m-10">
+                  <div class="lg:w-4/5 mx-auto flex flex-wrap">
+                    <img
+                      alt="ecommerce"
+                      class="lg:w-1/2 w-full lg:h-auto h-72 object-cover object-center rounded"
+                      :src="product.thumbnail"
+                    />
+                    <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+                      <h2 class="text-sm title-font text-gray-500 tracking-widest">
+                        {{ product.category }}
+                      </h2>
+                      <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
+                        {{ product.title }}
+                      </h1>
+                      <h2 class="text-sm title-font text-gray-500 tracking-widest">
+                        {{ product.brand }}
+                      </h2>
+                      <span class="text-gray-600 mt-2">{{ product.rating }} Reviews</span>
+                      <p class="mt-4">
+                        {{ product.description }}
+                      </p>
+                      <div class="flex justify-between items-center mt-4">
+                        <span class="title-font font-medium text-2xl text-gray-900"
+                          >R${{ product.price }},00</span
+                        >
+                        <v-card-actions class="flex justify-center">
+                          <v-btn color="secundary" @click="dialog = false" class="bg-black w-20"
+                            >Close</v-btn
+                          >
+                        </v-card-actions>
+                      </div>
+                      <span class="text-gray-600 mt-2">{{ product.stock }} stock</span>
+                    </div>
+                  </div>
                 </div>
-                <v-card-text>Description: {{ product.description }} </v-card-text>
-                <h3>Assessment: {{ product.rating }}</h3>
-                <h3>stock: {{ product.stock }}</h3>
-                <v-card-actions class="flex justify-center">
-                  <v-btn color="secundary" @click="dialog = false" class="bg-black w-48"
-                    >Close</v-btn
-                  >
-                </v-card-actions>
               </v-card>
             </v-dialog>
           </v-card>
         </v-dialog>
       </section>
     </div>
-
-    <!-- <CustomerInteractionsVue /> -->
   </div>
+
   <div class="flex justify-center py-10 bg-slate-200 mt-10">
     <p class="font-medium text-center text-gray-800">dummyStore &copy; 2023</p>
   </div>
@@ -116,7 +131,6 @@ import ListProducts from '../components/ListProducts.vue'
 import CustomHeader from '../components/CustomHeader.vue'
 import axios from 'axios'
 import CustomerInteractionsVue from '@/views/CustomerInteractions.vue'
-import CardProductSelected from '.././/components/CardProductSelected.vue'
 
 interface State {
   products: any
@@ -131,23 +145,25 @@ const product = ref<any>([])
 let searchProduct = ref('')
 const dialog = ref(false)
 
-// TODO: dever de casa = entender a diferença de let e const e quando utiliza-las
-let cardProductSelected = ref<any>('')
+// TODO:= entender a diferença de let e const e quando utiliza-las
+const cardProductSelected = ref<any>('')
+const filterCategoryProduct = ref<any>('')
+const categoryFilter = ref('')
 
-const filterCategory = (category: string) => {}
-
-// const getFilterCategory = () => {
-//   if (!state.value.category) {
-//     return state.value.products
-//   }
-//   return state.value.products.filter((product: any) => product.category === state.value.category)
-// }
+const filterCategory = async (category: string) => {
+  const { data } = await services.products.getProductsCategory(category)
+  filterCategoryProduct.value = data
+  console.log(filterCategoryProduct.value)
+}
 
 const productFilter = computed(() => {
   if (products.value && searchProduct.value) {
-    return products.value.filter((Products: any) =>
-      Products.title.toLowerCase().includes(searchProduct.value.toLowerCase())
+    return products.value.filter((product: any) =>
+      product.title.toLowerCase().includes(searchProduct.value.toLowerCase())
     )
+  }
+  if (categoryFilter.value) {
+    return products.value.filter((product: any) => product.category === categoryFilter.value)
   }
   return products.value
 })

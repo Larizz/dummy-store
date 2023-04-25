@@ -20,8 +20,8 @@ export default (httpClient: AxiosInstance) => ({
     }
   },
 
-  getProductsCategory: async () => {
-    const response = await httpClient.get('/products/category')
+  getProductsCategory: async (category: string) => {
+    const response = await httpClient.get(`/products/category/${category}`)
     return {
       data: response.data
     }
