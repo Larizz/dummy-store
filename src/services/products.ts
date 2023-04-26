@@ -27,11 +27,24 @@ export default (httpClient: AxiosInstance) => ({
     }
   },
 
+  getProductsCategories: async () => {
+    const response = await httpClient.get(`/products/categories`)
+    return {
+      data: response.data
+    }
+  },
+
   getSingleProduct: async (product_id: number) => {
     // TODO: Dever de casa: estudar o que é template string/literals
     const response = await httpClient.get(`/products/${product_id}`)
     return {
       data: response.data
     }
+  },
+
+  updateProduct: async ({ product_id, title }: { product_id: number; title: string }) => {
+    const response = await httpClient.put(`/products/${product_id}`, {
+      product_id
+    })
   }
 })

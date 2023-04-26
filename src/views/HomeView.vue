@@ -7,17 +7,17 @@
           <li class="hover:text-black"><a href="#Products">STORE</a></li>
         </ul>
         <div class="flex items-center gap-2">
-          <img src="../../public/sacolas-de-compras (3).png" alt="" />
+          <img src="../assets/images/sacolas-de-compras (3).png" alt="" />
           <h5 class="text-lg text-black tracking-widest">DUMMY STORE</h5>
         </div>
         <div class="flex items-center">
           <ul class="flex gap-2">
             <li>
-              <a href=""><img src="../../public/user (1).png" alt="" class="hover:h-8" /></a>
+              <a href=""><img src="../assets/images/user (1).png" alt="" class="hover:h-8" /></a>
             </li>
             <li>
               <RouterLink to="/customer"
-                ><img src="../../public/carrinho-de-compras.png" alt="" class="hover:h-8"
+                ><img src="../assets/images/carrinho-de-compras.png" alt="" class="hover:h-8"
               /></RouterLink>
             </li>
           </ul>
@@ -30,28 +30,8 @@
     class="flex justify-between items-center ml-20 text-gray-600 tracking-widest mr-48"
     id="Products"
   >
-    <div class="flex items-center mt-20">
+    <div class="flex flex-col items-start mt-20">
       <h1 class="text-4xl m-10">STORE</h1>
-      <div class="ml-10">
-        <ul class="flex ml-10 gap-5">
-          <li>
-            <button
-              class="block mt-1 w-full rounded-xl py-2 hover:text-black"
-              @click="filterCategory('smartphones')"
-            >
-              Smartphones
-            </button>
-          </li>
-          <li>
-            <button
-              class="block mt-1 w-full rounded-xl py-2 hover:text-black"
-              @click="filterCategory('Laptops')"
-            >
-              Laptops
-            </button>
-          </li>
-        </ul>
-      </div>
     </div>
     <input
       v-model="searchProduct"
@@ -61,8 +41,23 @@
     />
   </div>
   <div class="flex items-start">
-    <div class="ml-24">
-      <section class="grid grid-cols-5 ml-10">
+    <div class="ml-24 flex">
+      <div class="w-1/5">
+        <h1 class="text-2xl text-gray-600 tracking-widest">Categories</h1>
+        <ul>
+          <li>
+            <button @click="getAllProducts" class="m-1 text-gray-600 hover:text-gray-950">
+              All
+            </button>
+          </li>
+          <li v-for="(category, index) in categoriesList" :key="index">
+            <button @click="filterCategory(category)" class="m-1 text-gray-600 hover:text-gray-950">
+              {{ category }}
+            </button>
+          </li>
+        </ul>
+      </div>
+      <section class="grid grid-cols-4 ml-10">
         <ListProducts
           @show-modal="getSingleProduct(product.id)"
           v-for="product in productFilter"
@@ -74,7 +69,7 @@
         />
         <v-dialog v-model="dialog" width="auto">
           <v-card>
-            <v-dialog v-model="dialog" width="auto">
+            <v-dialog v-model="dialog" class="w-3/4">
               <v-card class="text-gray-600 bg-slate-200 rounded-lg p-10">
                 <div class="flex gap-10 m-10">
                   <div class="lg:w-4/5 mx-auto flex flex-wrap">
@@ -129,7 +124,6 @@ import { onMounted, reactive, ref, computed, watch } from 'vue'
 import services from '@/services'
 import ListProducts from '../components/ListProducts.vue'
 import CustomHeader from '../components/CustomHeader.vue'
-import axios from 'axios'
 import CustomerInteractionsVue from '@/views/CustomerInteractions.vue'
 
 interface State {
@@ -138,12 +132,15 @@ interface State {
 
 onMounted(() => {
   getAllProducts()
+  getAllCategories()
 })
 
 const products = ref<any>([])
 const product = ref<any>([])
 let searchProduct = ref('')
 const dialog = ref(false)
+const listMenu = ref(false)
+const categoriesList = ref<any>([])
 
 // TODO:= entender a diferença de let e const e quando utiliza-las
 const cardProductSelected = ref<any>('')
@@ -172,7 +169,19 @@ const productFilter = computed(() => {
 const getAllProducts = async () => {
   const { data } = await services.products.getAllProducts()
   products.value = data.products
+  // console.log(products.value)
+}
+
+const getProductsCategory = async (category: string) => {
+  const { data } = await services.products.getProductsCategory(category)
+  products.value = data.products
   console.log(products.value)
+}
+
+const getAllCategories = async () => {
+  const { data } = await services.products.getProductsCategories()
+  categoriesList.value = data
+  console.log(categoriesList.value)
 }
 
 const getSingleProduct = async (product_id: number) => {
