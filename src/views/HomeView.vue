@@ -145,7 +145,7 @@ const dialog = ref(false)
 const listMenu = ref(false)
 const categoriesList = ref<any>([])
 
-// TODO:= entender a diferença de let e const e quando utiliza-las
+// TODO: entender a diferença de let e const e quando utiliza-las
 const cardProductSelected = ref<any>('')
 const filterCategoryProduct = ref<any>([])
 const categoryFilter = ref('')

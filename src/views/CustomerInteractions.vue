@@ -78,20 +78,24 @@
                     <td class="flex justify-between gap-8 m-2">
                       <div>
                         <v-sheet class="d-flex flex-column w-10">
-                          <v-snackbar :timeout="2000" color="black" variant="outlined">
+                          <v-snackbar :timeout="1000" color="deep-purple-accent-4" elevation="24">
+                            {{ responseMessage }}
                             <template v-slot:activator="{ props }">
-                              <v-btn class="bg-slate-200" v-bind="props" @click="updatingProduct">
+                              <v-btn
+                                class="bg-slate-200"
+                                v-bind="props"
+                                @click="updatingProduct(product)"
+                              >
                                 <UpdateIcon />
                               </v-btn>
                             </template>
-
-                            <p>Successfully deleted product</p>
                           </v-snackbar>
                         </v-sheet>
                       </div>
                       <div>
                         <v-sheet>
-                          <v-snackbar v-model="snackbar" color="black" variant="outlined">
+                          <v-snackbar :timeout="1000" color="deep-purple-accent-4" elevation="24">
+                            {{ responseMessage }}
                             <template v-slot:activator="{ props }">
                               <v-btn
                                 @click="deletingProduct(product.id)"
@@ -101,8 +105,6 @@
                                 <DeleteIcon />
                               </v-btn>
                             </template>
-
-                            <p>Successfully deleted product</p>
                           </v-snackbar>
                         </v-sheet>
                       </div>
@@ -126,10 +128,7 @@ import DeleteIcon from '@/components/Icons/DeleteIcon.vue'
 import ShoppingBag from '@/components/Icons/ShoppingBag.vue'
 
 const newProduct = ref<string>('')
-const updateProduct = ref<string>('')
 const dialog = ref(false)
-const upProduct = ref<string>('')
-const product = ref<any>([])
 const products = ref<any>([])
 const snackbar = ref(false)
 
@@ -161,15 +160,27 @@ const addNewProduct = async () => {
   }
 }
 
-const updatingProduct = async (product_id: number, title: string) => {}
+const responseMessage = ref('')
+
+const updatingProduct = async (product: any) => {
+  try {
+    responseMessage.value = 'Produto atualizado com sucesso!'
+    const { data } = await services.products.updateProduct({
+      product_id: product.id,
+      title: product.title + ' atualizado'
+    })
+
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const deletingProduct = async (product_id: number) => {
   try {
-    snackbar.value = true
-    await services.products.deleteProduct(product_id)
-    products.value = products.value.filter((product: any) => product.id !== product_id)
-    console.log(products.value)
-    snackbar.value = false
+    responseMessage.value = 'Produto deletado com sucesso!'
+    const { data } = await services.products.deleteProduct(product_id)
+    console.log(data)
   } catch (error) {
     console.log(error)
   }
