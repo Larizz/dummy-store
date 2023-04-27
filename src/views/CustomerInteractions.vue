@@ -3,14 +3,14 @@
     <div class="flex justify-center bg-slate-100">
       <RouterLink to="/">
         <div class="flex items-center gap-2 m-6">
-          <img src="../../public/sacolas-de-compras (3).png" alt="" />
+          <ShoppingBag />
           <h5 class="text-lg text-black tracking-widest">DUMMY STORE</h5>
         </div>
       </RouterLink>
     </div>
     <div class="flex justify-center">
       <div class="bg-slate-200 w-5/6 rounded-xl">
-        <section class="flex">
+        <section class="flex flex-col">
           <div class="w-5/6 p-5">
             <div class="w-full bg-slate-200 m-10 rounded-md p-20">
               <div>
@@ -57,50 +57,60 @@
                     </v-card>
                   </v-dialog>
                 </div>
-                <div class="mt-10">
-                  <label for="" class="text-slate-500 text-xl"
-                    >If you want to update a product, enter the product in this field</label
-                  >
-                  <div class="mt-6 gap-2" id="form">
-                    <input
-                      v-model="newProduct"
-                      type="text"
-                      placeholder="Product's name"
-                      class="focus:outline-none"
-                    />
-
-                    <v-dialog v-model="dialog" width="auto">
-                      <template v-slot:activator="{ props }">
-                        <v-btn
-                          color="secundary"
-                          v-bind="props"
-                          class="bg-black w-28 rounded-lg"
-                          @click="updatingProduct"
-                        >
-                          To update</v-btn
-                        >
-                      </template>
-
-                      <v-card>
-                        <v-card-text>
-                          The product has been successfully registered! We are very happy with your
-                          cooperation! :)
-                        </v-card-text>
-                        <v-card-actions>
-                          <v-btn
-                            color="secundary"
-                            block
-                            @click="dialog = false"
-                            class="hover: text-black"
-                            >Close
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </div>
-                </div>
               </div>
             </div>
+          </div>
+          <div class="m-10 p-20">
+            <h1 class="text-4xl font-black text-black mb-10">Update or delete products here</h1>
+            <v-table fixed-header height="300px" class="bg-slate-200">
+              <thead>
+                <tr>
+                  <th class="text-left">ID</th>
+                  <th class="text-left">product</th>
+                  <th class="text-left">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="product in products" :key="product.id" :title="product.title">
+                  <td class="text-black">{{ product.id }}</td>
+                  <td>{{ product.title }}</td>
+                  <div class="flex w-full">
+                    <td class="flex justify-between gap-8 m-2">
+                      <div>
+                        <v-sheet class="d-flex flex-column w-10">
+                          <v-snackbar :timeout="2000" color="black" variant="outlined">
+                            <template v-slot:activator="{ props }">
+                              <v-btn class="bg-slate-200" v-bind="props" @click="updatingProduct">
+                                <UpdateIcon />
+                              </v-btn>
+                            </template>
+
+                            <p>Successfully deleted product</p>
+                          </v-snackbar>
+                        </v-sheet>
+                      </div>
+                      <div>
+                        <v-sheet>
+                          <v-snackbar v-model="snackbar" color="black" variant="outlined">
+                            <template v-slot:activator="{ props }">
+                              <v-btn
+                                @click="deletingProduct(product.id)"
+                                class="bg-slate-200"
+                                v-bind="props"
+                              >
+                                <DeleteIcon />
+                              </v-btn>
+                            </template>
+
+                            <p>Successfully deleted product</p>
+                          </v-snackbar>
+                        </v-sheet>
+                      </div>
+                    </td>
+                  </div>
+                </tr>
+              </tbody>
+            </v-table>
           </div>
         </section>
       </div>
@@ -109,13 +119,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import services from '@/services'
+import UpdateIcon from '@/components/Icons/UpdateIcon.vue'
+import DeleteIcon from '@/components/Icons/DeleteIcon.vue'
+import ShoppingBag from '@/components/Icons/ShoppingBag.vue'
 
 const newProduct = ref<string>('')
+const updateProduct = ref<string>('')
 const dialog = ref(false)
 const upProduct = ref<string>('')
 const product = ref<any>([])
+const products = ref<any>([])
+const snackbar = ref(false)
+
+onMounted(() => {
+  getAllProducts()
+})
+
+const getAllProducts = async () => {
+  const { data } = await services.products.getAllProducts()
+  products.value = data.products
+  // console.log(products.value)
+}
 
 const addNewProduct = async () => {
   dialog.value = true
@@ -135,13 +161,27 @@ const addNewProduct = async () => {
   }
 }
 
-const updatingProduct = async (product_id: number, title: string) => {
+const updatingProduct = async (product_id: number, title: string) => {}
+
+const deletingProduct = async (product_id: number) => {
   try {
-    const response = await services.products.updateProduct(product_id, { title: upProduct.value })
+    snackbar.value = true
+    await services.products.deleteProduct(product_id)
+    products.value = products.value.filter((product: any) => product.id !== product_id)
+    console.log(products.value)
+    snackbar.value = false
   } catch (error) {
     console.log(error)
   }
 }
+
+// const updatingProduct = async (product_id: number, title: string) => {
+// const data = {
+// title: 'title'
+
+// }
+// const response = await services.products.updateProduct(data: any)
+// }
 </script>
 
 <style scoped></style>

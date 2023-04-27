@@ -7,18 +7,16 @@
           <li class="hover:text-black"><a href="#Products">STORE</a></li>
         </ul>
         <div class="flex items-center gap-2">
-          <img src="../assets/images/sacolas-de-compras (3).png" alt="" />
+          <ShoppingBag />
           <h5 class="text-lg text-black tracking-widest">DUMMY STORE</h5>
         </div>
         <div class="flex items-center">
           <ul class="flex gap-2">
-            <li>
-              <a href=""><img src="../assets/images/user (1).png" alt="" class="hover:h-8" /></a>
+            <li class="hover: h-8">
+              <UserIcon />
             </li>
             <li>
-              <RouterLink to="/customer"
-                ><img src="../assets/images/carrinho-de-compras.png" alt="" class="hover:h-8"
-              /></RouterLink>
+              <RouterLink to="/customer"> <ShoppingCart /></RouterLink>
             </li>
           </ul>
         </div>
@@ -27,26 +25,28 @@
   </header>
   <CustomHeader></CustomHeader>
   <div
-    class="flex justify-between items-center ml-20 text-gray-600 tracking-widest mr-48"
-    id="Products"
+    class="flex justify-between items-center ml-12 bg-slate-100 text-gray-600 tracking-widest mb-20 mt-40"
   >
-    <div class="flex flex-col items-start mt-20">
-      <h1 class="text-4xl m-10">STORE</h1>
+    <div class="flex flex-col items-end">
+      <h1 class="text-5xl m-10 flex gap-2">STORE</h1>
     </div>
-    <input
-      v-model="searchProduct"
-      class="focus:outline-none focus:ring-slate-100 focus:border-slate-100 text-xl mt-20"
-      type="search"
-      placeholder="Search..."
-    />
+    <div class="flex flex-col">
+      <label for="Search here">Search here:</label>
+      <input
+        v-model="searchProduct"
+        class="focus:outline-none focus:ring-slate-100 border border-solid border-gray-100 rounded-lg text-xl h-12 p-2 mr-36"
+        type="search"
+        placeholder="Search..."
+      />
+    </div>
   </div>
   <div class="flex items-start">
-    <div class="ml-24 flex">
+    <div class="ml-20 gap-5 flex">
       <div class="w-1/5">
         <h1 class="text-2xl text-gray-600 tracking-widest">Categories</h1>
         <ul>
           <li>
-            <button @click="getAllProducts" class="m-1 text-gray-600 hover:text-gray-950">
+            <button @click="getAllProducts" class="m-2 text-gray-600 hover:text-gray-950">
               All
             </button>
           </li>
@@ -57,7 +57,7 @@
           </li>
         </ul>
       </div>
-      <section class="grid grid-cols-4 ml-10">
+      <section class="grid grid-cols-5 ml-10">
         <ListProducts
           @show-modal="getSingleProduct(product.id)"
           v-for="product in productFilter"
@@ -69,8 +69,8 @@
         />
         <v-dialog v-model="dialog" width="auto">
           <v-card>
-            <v-dialog v-model="dialog" class="w-3/4">
-              <v-card class="text-gray-600 bg-slate-200 rounded-lg p-10">
+            <v-dialog v-model="dialog" class="w-3/5">
+              <v-card class="text-gray-600 bg-slate-200 rounded-lg p-4">
                 <div class="flex gap-10 m-10">
                   <div class="lg:w-4/5 mx-auto flex flex-wrap">
                     <img
@@ -125,6 +125,9 @@ import services from '@/services'
 import ListProducts from '../components/ListProducts.vue'
 import CustomHeader from '../components/CustomHeader.vue'
 import CustomerInteractionsVue from '@/views/CustomerInteractions.vue'
+import ShoppingBag from '@/components/Icons/ShoppingBag.vue'
+import ShoppingCart from '@/components/Icons/ShoppingCart.vue'
+import UserIcon from '@/components/Icons/UserIcon.vue'
 
 interface State {
   products: any

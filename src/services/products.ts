@@ -44,7 +44,14 @@ export default (httpClient: AxiosInstance) => ({
 
   updateProduct: async ({ product_id, title }: { product_id: number; title: string }) => {
     const response = await httpClient.put(`/products/${product_id}`, {
-      product_id
+      title
     })
+  },
+
+  deleteProduct: async (product_id: number) => {
+    const response = await httpClient.delete(`/products/${product_id}`)
+    return {
+      data: response.data
+    }
   }
 })
