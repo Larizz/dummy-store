@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center bg-slate-100 m-10 ml-0">
-    <div class="text-gray-600 w-85">
+  <div class="flex justify-center bg-slate-50 m-10 ml-0">
+    <div class="text-gray-600 w-85 border border-slate-400 rounded-lg p-2">
       <a class="block relative h-48">
         <img alt="ecommerce" class="object-cover object-center h-full" :src="props.thumbnail" />
       </a>

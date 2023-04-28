@@ -12,7 +12,7 @@
       <div class="bg-slate-200 w-5/6 rounded-xl">
         <section class="flex flex-col">
           <div class="w-5/6 p-5">
-            <div class="w-full bg-slate-200 m-10 rounded-md p-20">
+            <div class="w-full bg-slate-200 m-10 rounded-md p-10">
               <div>
                 <h1 class="text-4xl font-black text-black mb-5">Interact with us!</h1>
                 <p class="text-lg font-medium text-black mb-15">
@@ -78,7 +78,7 @@
                     <td class="flex justify-between gap-8 m-2">
                       <div>
                         <v-sheet class="d-flex flex-column w-10">
-                          <v-snackbar :timeout="1000" color="deep-purple-accent-4" elevation="24">
+                          <v-snackbar :timeout="1000" color="black" elevation="24">
                             {{ responseMessage }}
                             <template v-slot:activator="{ props }">
                               <v-btn
@@ -94,7 +94,7 @@
                       </div>
                       <div>
                         <v-sheet>
-                          <v-snackbar :timeout="1000" color="deep-purple-accent-4" elevation="24">
+                          <v-snackbar :timeout="1000" color="black" elevation="24">
                             {{ responseMessage }}
                             <template v-slot:activator="{ props }">
                               <v-btn
@@ -137,7 +137,9 @@ onMounted(() => {
 })
 
 const getAllProducts = async () => {
-  const { data } = await services.products.getAllProducts()
+  const { data } = await services.products.getAllProducts({
+    limit: 20
+  })
   products.value = data.products
   // console.log(products.value)
 }
@@ -164,7 +166,7 @@ const responseMessage = ref('')
 
 const updatingProduct = async (product: any) => {
   try {
-    responseMessage.value = 'Produto atualizado com sucesso!'
+    responseMessage.value = 'Product updated successfully!'
     const { data } = await services.products.updateProduct({
       product_id: product.id,
       title: product.title + ' atualizado'
@@ -178,21 +180,16 @@ const updatingProduct = async (product: any) => {
 
 const deletingProduct = async (product_id: number) => {
   try {
-    responseMessage.value = 'Produto deletado com sucesso!'
+    responseMessage.value = 'The product has been successfully deleted!'
     const { data } = await services.products.deleteProduct(product_id)
     console.log(data)
+    // removendo product da tabela
+    const index = products.value.findIndex((o: any) => o.id === product_id)
+    products.value.splice(index, 1)
   } catch (error) {
     console.log(error)
   }
 }
-
-// const updatingProduct = async (product_id: number, title: string) => {
-// const data = {
-// title: 'title'
-
-// }
-// const response = await services.products.updateProduct(data: any)
-// }
 </script>
 
 <style scoped></style>

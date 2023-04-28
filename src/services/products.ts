@@ -1,11 +1,12 @@
 import type { AxiosInstance } from 'axios'
 
 export default (httpClient: AxiosInstance) => ({
-  getAllProducts: async () => {
+  getAllProducts: async ({ limit }: { limit: number }) => {
     // TODO: Dever de casa: passar o limit via parâmetros
     // Acesse o link: https://github.com/cn-2k/agility-on/blob/master/src/services/filters.ts
     // E veja a função getAllIndicators e como os parâmetros são passados
-    const response = await httpClient.get('/products/?limit=10')
+    const query = { limit }
+    const response = await httpClient.get('/products', { params: query })
     return {
       data: response.data
     }
@@ -54,6 +55,14 @@ export default (httpClient: AxiosInstance) => ({
 
   deleteProduct: async (product_id: number) => {
     const response = await httpClient.delete(`/products/${product_id}`)
+    return {
+      data: response.data
+    }
+  },
+
+  searchProduct: async ({ q }: { q: string }) => {
+    const query = { q }
+    const response = await httpClient.get('/products/search', { params: query })
     return {
       data: response.data
     }
