@@ -66,5 +66,15 @@ export default (httpClient: AxiosInstance) => ({
     return {
       data: response.data
     }
+  },
+
+  authenticator: async ({ username, password }: { username: string; password: string }) => {
+    const response = await httpClient.post('/auth/login', {
+      username,
+      password
+    })
+    return {
+      data: response.data
+    }
   }
 })

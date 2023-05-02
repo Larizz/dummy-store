@@ -1,122 +1,137 @@
 <template>
-  <SidebarMenu />
-  <CustomHeader></CustomHeader>
-  <div class="flex justify-between items-center bg-slate-100 text-gray-600 tracking-widest ml-16">
-    <div class="flex flex-col items-end">
-      <h1 class="md:text-5xl m-10 flex gap-2 text-xl" id="Products">STORE</h1>
-    </div>
-    <div class="flex flex-col gap-2">
-      <!-- <label for="Search here">Search here:</label> -->
-      <div class="mr-16 flex gap-2">
-        <input
-          v-model="searchProduct"
-          class="focus:outline-none focus:ring-slate-100 border border-solid border-gray-100 rounded-lg text-xl h-12 p-2"
-          type="search"
-          placeholder="Search..."
-          @keyup.enter="searchFilter"
-        />
-        <button
-          class="border border-slate-500 h-12 w-12 p-1 rounded-md"
-          @click="searchFilter"
-          :disabled="!searchProduct"
-        >
-          <SearchIcon />
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- DIV GERAL  -->
-  <div class="w-full flex">
-    <!-- INICIO DIV DAS CATEGORIAS  -->
-    <div class="w-52 mx-10 ml-18">
-      <h1 class="text-2xl text-gray-600">Categories</h1>
-      <ul>
-        <li>
-          <button @click="getAllProducts" class="m-2 text-gray-600 hover:text-gray-950">All</button>
-        </li>
-        <li v-for="(category, index) in categoriesList" :key="index">
-          <button @click="filterCategory(category)" class="m-1 text-gray-600 hover:text-gray-950">
-            {{ category }}
-          </button>
-        </li>
-      </ul>
-    </div>
-    <!-- FIM DIV DAS CATEGORIAS  -->
-
-    <!-- DIV DA LISTA DE PRODUTOS -->
+  <div class="flex">
+    <!-- sidebar  -->
+    <SidebarMenu />
+    <!-- main content page -->
     <div class="w-full">
+      <CustomHeader></CustomHeader>
       <div
-        v-if="notFound"
-        class="w-full h-full flex flex-col justify-center bg-slate-50 border border-slate-500"
+        class="flex justify-between items-center bg-slate-100 text-gray-600 tracking-widest ml-16"
       >
-        <p class="text-lg text-slate-600 text-center">No products were found for your search!</p>
+        <div class="flex flex-col items-end">
+          <h1 class="md:text-5xl m-10 flex gap-2 text-xl" id="Products">STORE</h1>
+        </div>
+        <div class="flex flex-col gap-2">
+          <!-- <label for="Search here">Search here:</label> -->
+          <div class="mr-16 flex gap-2">
+            <input
+              v-model="searchProduct"
+              class="focus:outline-none focus:ring-slate-100 border border-solid border-gray-100 rounded-lg text-xl h-12 p-2"
+              type="search"
+              placeholder="Search..."
+              @keyup.enter="searchFilter"
+            />
+            <button
+              class="border border-slate-500 h-12 w-12 p-1 rounded-md"
+              @click="searchFilter"
+              :disabled="!searchProduct"
+            >
+              <SearchIcon />
+            </button>
+          </div>
+        </div>
       </div>
-      <section
-        v-if="!notFound"
-        class="grid md:grid-cols-5 pl-16 mr-12 grid-cols-1 border border-slate-500 p-5 bg-slate-50 rounded-lg"
-      >
-        <ListProducts
-          @show-modal="getSingleProduct(product.id)"
-          v-for="product in products"
-          :key="product.id"
-          :title="product.title"
-          :price="product.price"
-          :category="product.category"
-          :thumbnail="product.thumbnail"
-        />
-        <v-dialog v-model="dialog" width="auto">
-          <v-card>
-            <v-dialog v-model="dialog" class="w-3/5">
-              <v-card class="text-gray-600 bg-slate-200 rounded-lg p-4">
-                <div class="flex gap-10 m-10">
-                  <div class="lg:w-4/5 mx-auto flex flex-wrap">
-                    <img
-                      alt="ecommerce"
-                      class="lg:w-1/2 w-full lg:h-auto h-72 object-cover object-center rounded"
-                      :src="product.thumbnail"
-                    />
-                    <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                      <h2 class="text-sm title-font text-gray-500 tracking-widest">
-                        {{ product.category }}
-                      </h2>
-                      <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
-                        {{ product.title }}
-                      </h1>
-                      <h2 class="text-sm title-font text-gray-500 tracking-widest">
-                        {{ product.brand }}
-                      </h2>
-                      <span class="text-gray-600 mt-2">{{ product.rating }} Reviews</span>
-                      <p class="mt-4">
-                        {{ product.description }}
-                      </p>
-                      <div class="flex justify-between items-center mt-4">
-                        <span class="title-font font-medium text-2xl text-gray-900"
-                          >R${{ product.price }},00</span
-                        >
-                        <v-card-actions class="flex justify-center">
-                          <v-btn color="secundary" @click="dialog = false" class="bg-black w-20"
-                            >Close</v-btn
-                          >
-                        </v-card-actions>
+
+      <!-- DIV GERAL  -->
+      <div class="w-full flex">
+        <!-- INICIO DIV DAS CATEGORIAS  -->
+        <div class="w-52 mx-10 ml-18">
+          <h1 class="text-2xl text-gray-600">Categories</h1>
+          <ul>
+            <li>
+              <button @click="getAllProducts" class="m-2 text-gray-600 hover:text-gray-950">
+                All
+              </button>
+            </li>
+            <li v-for="(category, index) in categoriesList" :key="index">
+              <button
+                @click="filterCategory(category)"
+                class="m-1 text-gray-600 hover:text-gray-950"
+              >
+                {{ category }}
+              </button>
+            </li>
+          </ul>
+        </div>
+        <!-- FIM DIV DAS CATEGORIAS  -->
+
+        <!-- DIV DA LISTA DE PRODUTOS -->
+        <div class="w-full">
+          <div
+            v-if="notFound"
+            class="w-full h-full flex flex-col justify-center bg-slate-50 border border-slate-500"
+          >
+            <p class="text-lg text-slate-600 text-center">
+              No products were found for your search!
+            </p>
+          </div>
+          <section
+            v-if="!notFound"
+            class="grid md:grid-cols-5 pl-16 mr-12 grid-cols-1 border border-slate-500 p-5 bg-slate-50 rounded-lg"
+          >
+            <ListProducts
+              @show-modal="getSingleProduct(product.id)"
+              v-for="product in products"
+              :key="product.id"
+              :title="product.title"
+              :price="product.price"
+              :category="product.category"
+              :thumbnail="product.thumbnail"
+            />
+            <v-dialog v-model="dialog" width="auto">
+              <v-card>
+                <v-dialog v-model="dialog" class="w-3/5">
+                  <v-card class="text-gray-600 bg-slate-200 rounded-lg p-4">
+                    <div class="flex gap-10 m-10">
+                      <div class="lg:w-4/5 mx-auto flex flex-wrap">
+                        <img
+                          alt="ecommerce"
+                          class="lg:w-1/2 w-full lg:h-auto h-72 object-cover object-center rounded"
+                          :src="product.thumbnail"
+                        />
+                        <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+                          <h2 class="text-sm title-font text-gray-500 tracking-widest">
+                            {{ product.category }}
+                          </h2>
+                          <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
+                            {{ product.title }}
+                          </h1>
+                          <h2 class="text-sm title-font text-gray-500 tracking-widest">
+                            {{ product.brand }}
+                          </h2>
+                          <span class="text-gray-600 mt-2">{{ product.rating }} Reviews</span>
+                          <p class="mt-4">
+                            {{ product.description }}
+                          </p>
+                          <div class="flex justify-between items-center mt-4">
+                            <span class="title-font font-medium text-2xl text-gray-900"
+                              >R${{ product.price }},00</span
+                            >
+                            <v-card-actions class="flex justify-center">
+                              <v-btn color="secundary" @click="dialog = false" class="bg-black w-20"
+                                >Close</v-btn
+                              >
+                            </v-card-actions>
+                          </div>
+                          <span class="text-gray-600 mt-2">{{ product.stock }} stock</span>
+                        </div>
                       </div>
-                      <span class="text-gray-600 mt-2">{{ product.stock }} stock</span>
                     </div>
-                  </div>
-                </div>
+                  </v-card>
+                </v-dialog>
               </v-card>
             </v-dialog>
-          </v-card>
-        </v-dialog>
-      </section>
-    </div>
-    <!-- FIM DIV DA LISTA DE PRODUTOS -->
-  </div>
-  <!-- FIM DIV GERAL  -->
+          </section>
+        </div>
+        <!-- FIM DIV DA LISTA DE PRODUTOS -->
+      </div>
+      <!-- FIM DIV GERAL  -->
 
-  <div>
-    <div class="flex justify-center py-10 bg-slate-200 mt-10">
-      <p class="font-medium text-center text-gray-800">dummyStore &copy; 2023</p>
+      <div>
+        <div class="flex justify-center py-10 bg-slate-200 mt-10">
+          <p class="font-medium text-center text-gray-800">dummyStore &copy; 2023</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -132,16 +147,14 @@ import UserIcon from '@/components/Icons/UserIcon.vue'
 import SearchIcon from '@/components/Icons/SearchIcon.vue'
 import NotFoundIcon from '@/components/Icons/NotFoundIcon.vue'
 import SidebarMenu from '@/components/SidebarMenu.vue'
-
+import MenuIcon from '../components/Icons/MenuIcon.vue'
 interface State {
   products: any
 }
-
 onMounted(() => {
   getAllProducts()
   getAllCategories()
 })
-
 const products = ref<any>([])
 const product = ref<any>([])
 let searchProduct = ref('')
@@ -149,12 +162,11 @@ const dialog = ref(false)
 const listMenu = ref(false)
 const categoriesList = ref<any>([])
 const notFound = ref(false)
-
+const asideOpen = ref(true)
 // TODO: entender a diferença de let e const e quando utiliza-las
 const cardProductSelected = ref<any>('')
 const filterCategoryProduct = ref<any>([])
 const categoryFilter = ref('')
-
 const filterCategory = async (category: string) => {
   const { data } = await services.products.getProductsCategory(category)
   // filterCategoryProduct.value = data.products
@@ -162,7 +174,6 @@ const filterCategory = async (category: string) => {
   notFound.value = false
   console.log(products.value)
 }
-
 const productFilter = computed(() => {
   if (products.value && searchProduct.value) {
     return products.value.filter((product: any) =>
@@ -174,7 +185,6 @@ const productFilter = computed(() => {
   }
   return products.value
 })
-
 const searchFilter = async (q: any) => {
   try {
     notFound.value = false
@@ -189,7 +199,6 @@ const searchFilter = async (q: any) => {
     console.log(error)
   }
 }
-
 const getAllProducts = async () => {
   const { data } = await services.products.getAllProducts({
     limit: 10
@@ -197,13 +206,11 @@ const getAllProducts = async () => {
   products.value = data.products
   // console.log(products.value)
 }
-
 const getAllCategories = async () => {
   const { data } = await services.products.getProductsCategories()
   categoriesList.value = data
   console.log(categoriesList.value)
 }
-
 const getSingleProduct = async (product_id: number) => {
   dialog.value = true
   const { data } = await services.products.getSingleProduct(product_id)
