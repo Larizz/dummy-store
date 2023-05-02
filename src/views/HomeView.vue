@@ -1,32 +1,9 @@
 <template>
-  <header>
-    <div class="flex justify-between bg-slate-100 text-gray-600 h-18 md: w-full">
-      <div class="flex w-full justify-between m-6">
-        <ul class="flex gap-5 items-center text-lg tracking-widest">
-          <li class="hover:text-black"><RouterLink to="/">HOME</RouterLink></li>
-          <li class="hover:text-black"><a href="#Products">STORE</a></li>
-        </ul>
-        <div class="flex items-center gap-2">
-          <ShoppingBag />
-          <h5 class="text-lg text-black tracking-widest">DUMMY STORE</h5>
-        </div>
-        <div class="flex items-center">
-          <ul class="flex gap-2">
-            <li class="hover: h-8">
-              <UserIcon />
-            </li>
-            <li>
-              <RouterLink to="/customer"> <ShoppingCart /></RouterLink>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </header>
+  <SidebarMenu />
   <CustomHeader></CustomHeader>
-  <div class="flex justify-between items-center bg-slate-100 text-gray-600 tracking-widest">
+  <div class="flex justify-between items-center bg-slate-100 text-gray-600 tracking-widest ml-16">
     <div class="flex flex-col items-end">
-      <h1 class="md:text-5xl m-10 flex gap-2 text-xl">STORE</h1>
+      <h1 class="md:text-5xl m-10 flex gap-2 text-xl" id="Products">STORE</h1>
     </div>
     <div class="flex flex-col gap-2">
       <!-- <label for="Search here">Search here:</label> -->
@@ -52,7 +29,7 @@
   <!-- DIV GERAL  -->
   <div class="w-full flex">
     <!-- INICIO DIV DAS CATEGORIAS  -->
-    <div class="w-52 mx-10">
+    <div class="w-52 mx-10 ml-18">
       <h1 class="text-2xl text-gray-600">Categories</h1>
       <ul>
         <li>
@@ -73,9 +50,7 @@
         v-if="notFound"
         class="w-full h-full flex flex-col justify-center bg-slate-50 border border-slate-500"
       >
-        <p class="text-lg text-slate-600 text-center">
-          Não foram encontrados produtos para a pesquisa desejada!
-        </p>
+        <p class="text-lg text-slate-600 text-center">No products were found for your search!</p>
       </div>
       <section
         v-if="!notFound"
@@ -156,6 +131,7 @@ import ShoppingCart from '@/components/Icons/ShoppingCart.vue'
 import UserIcon from '@/components/Icons/UserIcon.vue'
 import SearchIcon from '@/components/Icons/SearchIcon.vue'
 import NotFoundIcon from '@/components/Icons/NotFoundIcon.vue'
+import SidebarMenu from '@/components/SidebarMenu.vue'
 
 interface State {
   products: any
