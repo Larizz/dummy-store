@@ -1,10 +1,11 @@
+import { onBeforeMount } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'Home',
       component: () => import('@/views/HomeView.vue')
     },
@@ -14,7 +15,7 @@ const router = createRouter({
       component: () => import('../views/CustomerInteractions.vue')
     },
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: () => import('@/views/LoginPage.vue')
     }

@@ -6,7 +6,7 @@
     <div class="w-full">
       <CustomHeader></CustomHeader>
       <div
-        class="flex justify-between items-center bg-slate-100 text-gray-600 tracking-widest ml-16"
+        class="flex justify-between items-center bg-slate-100 text-gray-600 tracking-widest ml-20"
       >
         <div class="flex flex-col items-end">
           <h1 class="md:text-5xl m-10 flex gap-2 text-xl" id="Products">STORE</h1>
@@ -33,7 +33,7 @@
       </div>
 
       <!-- DIV GERAL  -->
-      <div class="w-full flex">
+      <div class="w-full flex ml-16">
         <!-- INICIO DIV DAS CATEGORIAS  -->
         <div class="w-52 mx-10 ml-18">
           <h1 class="text-2xl text-gray-600">Categories</h1>
@@ -141,13 +141,8 @@ import { onMounted, reactive, ref, computed, watch } from 'vue'
 import services from '@/services'
 import ListProducts from '../components/ListProducts.vue'
 import CustomHeader from '../components/CustomHeader.vue'
-import ShoppingBag from '@/components/Icons/ShoppingBag.vue'
-import ShoppingCart from '@/components/Icons/ShoppingCart.vue'
-import UserIcon from '@/components/Icons/UserIcon.vue'
 import SearchIcon from '@/components/Icons/SearchIcon.vue'
-import NotFoundIcon from '@/components/Icons/NotFoundIcon.vue'
 import SidebarMenu from '@/components/SidebarMenu.vue'
-import MenuIcon from '../components/Icons/MenuIcon.vue'
 interface State {
   products: any
 }
@@ -159,13 +154,10 @@ const products = ref<any>([])
 const product = ref<any>([])
 let searchProduct = ref('')
 const dialog = ref(false)
-const listMenu = ref(false)
 const categoriesList = ref<any>([])
 const notFound = ref(false)
 const asideOpen = ref(true)
 // TODO: entender a diferença de let e const e quando utiliza-las
-const cardProductSelected = ref<any>('')
-const filterCategoryProduct = ref<any>([])
 const categoryFilter = ref('')
 const filterCategory = async (category: string) => {
   const { data } = await services.products.getProductsCategory(category)

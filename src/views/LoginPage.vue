@@ -37,7 +37,7 @@
           </div>
           <div class="flex justify-center mt-12">
             <button
-              class="w-96 bg-black flex justify-center h-12 mt-10 items-center rounded-xl bg-gradient-to-r from-black to-gray-600 hover: shadow-lg"
+              class="w-96 bg-black flex justify-center h-12 mt-10 items-center rounded-xl bg-gradient-to-r from-black to-gray-600 text-white"
               @click="authenticatorLogin()"
             >
               LOGIN
@@ -51,6 +51,15 @@
               <a href=""><TwitterIcon /></a>
             </div>
           </div>
+          <v-dialog v-model="dialog" width="auto" height="">
+            <v-card>
+              <v-dialog v-model="dialog" class="w-2/6">
+                <v-card class="text-gray-600 bg-slate-200 rounded-lg p-4">
+                  <div class="flex text-red-700">Login or password are incorrect.</div>
+                </v-card>
+              </v-dialog>
+            </v-card>
+          </v-dialog>
         </div>
       </div>
     </div>
@@ -58,7 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { ref } from 'vue'
 import UserLogin from '@/components/Icons/UserLogin.vue'
 import SecurityIcon from '@/components/Icons/SecurityIcon.vue'
@@ -72,6 +80,7 @@ import ShoppingBag from '@/components/Icons/ShoppingBag.vue'
 const username = ref('')
 const password = ref('')
 const router = useRouter()
+const dialog = ref(false)
 
 const authenticatorLogin = async () => {
   try {
@@ -84,9 +93,10 @@ const authenticatorLogin = async () => {
     console.log(token)
 
     if (token) {
-      router.push({ path: '/home' })
+      router.push({ path: '/customer' })
     }
   } catch (error) {
+    dialog.value = true
     console.log(error)
   }
 }

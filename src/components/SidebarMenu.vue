@@ -21,12 +21,12 @@
     <div>
       <ul>
         <li>
-          <RouterLink to="/login" class="flex items-center gap-4 text-slate-600"
+          <RouterLink to="" class="flex items-center gap-4 text-slate-600"
             ><UserIcon /><span>SIGN IN/ SIGN UP</span></RouterLink
           >
         </li>
         <li>
-          <RouterLink to="/customer" class="flex items-center gap-4 text-slate-600"
+          <RouterLink to="/login" class="flex items-center gap-4 text-slate-600"
             ><ShoppingCart />
             <span> INTERACTIONS</span>
           </RouterLink>
@@ -48,7 +48,7 @@ const isReducedVersion = ref(true)
 
 <style scoped>
 .menu {
-  position: sticky;
+  position: fixed;
   top: 0;
   background-color: #f8fafc;
   width: 14rem;
