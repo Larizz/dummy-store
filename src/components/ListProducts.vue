@@ -12,7 +12,6 @@
           <h2 class="text-gray-900 text-xl font-medium">
             {{ props.title }}
           </h2>
-          <img src="../../public/icons8-copas-30.png" class="w-4 h-4 hover:w-5 hover:h-5" />
         </div>
         <p class="text-base">R${{ props.price }},00</p>
         <button
