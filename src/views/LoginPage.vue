@@ -68,6 +68,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import Cookies from 'js-cookie'
 import UserLogin from '@/components/Icons/UserLogin.vue'
 import SecurityIcon from '@/components/Icons/SecurityIcon.vue'
 import services from '@/services'
@@ -90,9 +91,13 @@ const authenticatorLogin = async () => {
     })
 
     const { token } = data.data
-    console.log(token)
+    const inOneMinute = new Date(new Date().getTime() + 60 * 1000)
 
-    if (token) {
+    Cookies.set('token', token, {
+      expires: inOneMinute
+    })
+
+    if (Cookies.get('token') && token) {
       router.push({ path: '/customer' })
     }
   } catch (error) {
