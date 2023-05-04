@@ -135,10 +135,10 @@ import useGetAllProducts from '@/composables/GetAllProducts'
 import type { ProductsProps } from '@/types/index'
 
 const product = ref<ProductsProps>()
-const searchProduct = ref('')
-const dialog = ref(false)
-const categoriesList = ref<any>([])
-const notFound = ref(false)
+const searchProduct = ref<String>('')
+const dialog = ref<boolean>(false)
+const categoriesList = ref<String[]>([])
+const notFound = ref<boolean>(false)
 const { getAllProducts, products } = useGetAllProducts()
 
 onMounted(() => {

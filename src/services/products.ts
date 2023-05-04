@@ -60,7 +60,7 @@ export default (httpClient: AxiosInstance) => ({
     }
   },
 
-  searchProduct: async ({ q }: { q: string }) => {
+  searchProduct: async ({ q }: { q: any }) => {
     const query = { q }
     const response = await httpClient.get('/products/search', { params: query })
     return {
