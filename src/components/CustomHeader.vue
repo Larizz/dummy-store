@@ -1,5 +1,5 @@
 <template>
-  <header class="flex justify-start w-full h-[711px] bg-slate-950 flex-grow ml-16">
+  <header class="flex justify-start w-full h-[711px] bg-slate-950 flex-grow ml-16 lg:ml-5">
     <div class="header">
       <div class="w-full">
         <div class="flex flex-col m-32">
