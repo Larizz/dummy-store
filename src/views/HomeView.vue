@@ -37,7 +37,10 @@
             </button>
           </li>
           <li v-for="(category, index) in categoriesList" :key="index">
-            <button @click="filterCategory(category)" class="m-1 text-gray-600 hover:text-gray-950">
+            <button
+              @click="filterCategory(category as string)"
+              class="m-1 text-gray-600 hover:text-gray-950"
+            >
               {{ category }}
             </button>
           </li>
@@ -75,7 +78,7 @@
                       ><icons name="closedIcon"
                     /></v-btn>
                   </v-card-actions>
-                  <div class="flex gap-10 m-10">
+                  <div v-if="product" class="flex gap-10 m-10">
                     <div class="lg:w-4/5 mx-auto flex flex-wrap">
                       <img
                         alt="ecommerce"
